@@ -244,11 +244,15 @@ module Rack #:nodoc:
 
         if required.any? || optional.any?
           required.each do |field|
-            axreq.add(::OpenID::AX::AttrInfo.new(field, nil, true))
+            namespace, alias_ = field.split(/\|/)
+            alias_ ||= nil
+            axreq.add(::OpenID::AX::AttrInfo.new(namespace, alias_, true))
           end
 
           optional.each do |field|
-            axreq.add(::OpenID::AX::AttrInfo.new(field, nil, false))
+            namespace, alias_ = field.split(/\|/)
+            alias_ ||= nil
+            axreq.add(::OpenID::AX::AttrInfo.new(namespace, alias_, false))
           end
 
           oidreq.add_extension(axreq)
